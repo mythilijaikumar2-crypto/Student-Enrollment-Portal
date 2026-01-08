@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; connect-src 'self' http://localhost:5000; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+    <title>Login - NXTSYNC</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="login-split-screen">
+        <!-- Visual Side (Left) -->
+        <div class="visual-side">
+            <video autoplay muted loop playsinline class="bg-video">
+                <source src="assets/v5.mp4" type="video/mp4">
+            </video>
+            <div class="visual-overlay"></div>
+
+            <div class="visual-content">
+                <img src="assets/login-illustration.png" alt="Login Illustration" class="floating-illustration">
+                <div class="visual-text">
+                    <h1>Welcome Back</h1>
+                    <p>Access your dashboard to manage courses, track progress, and verify certificates.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Side (Right) -->
+        <div class="form-side">
+            <header class="auth-header">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo.jpg" alt="NXTSYNC">
+                </a>
+                <a href="index.html" class="back-home">Back to Home</a>
+            </header>
+
+            <div class="auth-box">
+                <div class="auth-head">
+                    <h2>Sign In</h2>
+                    <p>Enter your credentials to continue.</p>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <div class="input-group">
+                        <input type="text" id="identifier" required placeholder=" " autocomplete="username">
+                        <label for="identifier">Student ID / Admin Email</label>
+                        <span class="input-highlight"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <input type="password" id="password" required placeholder=" " autocomplete="current-password">
+                        <label for="password">Password</label>
+                        <span class="input-highlight"></span>
+                    </div>
+
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; font-size: 0.9rem;">
+                        <label
+                            style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--text-light);">
+                            <input type="checkbox" id="rememberMe" style="accent-color: var(--primary);"> Remember Me
+                        </label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">
+                            <span class="btn-text">Access Portal</span>
+                            <div class="spinner hidden"></div>
+                        </button>
+                    </div>
+
+                    <div id="errorMessage" class="error-message"></div>
+                </form>
+
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="enroll.html">Enroll Now</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/transitions.js"></script>
+</body>
+
+</html>
