@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; connect-src 'self' http://localhost:5000; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <title>How It Works - NXTSYNC</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/how-it-works.css">
+</head>
+<link rel="stylesheet" href="../css/transitions.css">
+
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/logo.jpg" alt="NXTSYNC Logo">
+            </a>
+            <nav class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="how-it-works.html" class="active" style="color: var(--primary);">How It Works</a>
+                <a href="features.html">Features</a>
+                <a href="../enroll.html">Enroll</a>
+                <a href="../login.html" class="btn btn-sm btn-primary">Login</a>
+            </nav>
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="section-header text-center" style="padding-top: 180px; margin-bottom: 40px;">
+        <h1>The <span class="gradient-text">Certification Ecosystem</span></h1>
+        <p>A comprehensive guide to our automated enrollment and verification process.</p>
+    </section>
+
+    <!-- Detailed Steps -->
+    <section class="process-detail-section">
+        <div class="container">
+
+            <!-- Step 1 -->
+            <div class="step-detail-row observe fade-up">
+                <div class="step-text">
+                    <span class="step-number-badge">Step 01</span>
+                    <h2 class="step-title">Seamless Enrollment</h2>
+                    <p class="step-description">
+                        The journey begins with our streamlined enrollment portal. Students input their details into a
+                        secure form that automatically validates data integrity. Upon submission, the system generates a
+                        unique, immutable Student Identity Number (SIN) that serves as the primary key for all future
+                        academic records.
+                    </p>
+                </div>
+                <div class="step-visual">
+                    <img src="../assets/illustration-enroll.png" alt="Enrollment Process">
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-detail-row observe fade-up delay-100">
+                <div class="step-text">
+                    <span class="step-number-badge">Step 02</span>
+                    <h2 class="step-title">Curriculum Progress Tracking</h2>
+                    <p class="step-description">
+                        As students engage with course materials, our dynamic tracking engine monitors their progress in
+                        real-time. Whether it's completing video modules, passing quizzes, or submitting assignments,
+                        every milestone is recorded on their personal dashboard, providing a transparent view of their
+                        academic standing.
+                    </p>
+                </div>
+                <div class="step-visual">
+                    <img src="../assets/illustration-track.png" alt="Progress Tracking">
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-detail-row observe fade-up delay-100">
+                <div class="step-text">
+                    <span class="step-number-badge">Step 03</span>
+                    <h2 class="step-title">Automated Verification Request</h2>
+                    <p class="step-description">
+                        Once all course requirements are met, the system unlocks the "Request Certificate" capability.
+                        This triggers an automated audit of the student's records to ensure 100% compliance before
+                        flagging the profile for administrative review. This eliminates manual pre-checks for
+                        administrators.
+                    </p>
+                </div>
+                <div class="step-visual">
+                    <img src="../assets/illustration-verify.png" alt="Verification Process">
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-detail-row observe fade-up delay-100">
+                <div class="step-text">
+                    <span class="step-number-badge">Step 04</span>
+                    <h2 class="step-title">Instant Certification & Verification</h2>
+                    <p class="step-description">
+                        Upon final approval, our PDF engine generates a high-resolution, print-ready certificate. Each
+                        document is embedded with a QR code linked to our permanent verification ledger. This allows
+                        employers and institutions to instantly validate the certificate's authenticity with a simple
+                        scan.
+                    </p>
+                </div>
+                <div class="step-visual">
+                    <!-- Graduation/Certificate Illustration -->
+                    <img src="../assets/illustration-certify.png" alt="Certification Process">
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">NXTSYNC</div>
+                    <p>Empowering education through automated management and certification solutions.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../enroll.html">Enroll</a></li>
+                        <li><a href="../login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h4>Contact</h4>
+                    <p>support@nxtsync.com</p>
+                    <p>+1 (555) 123-4567</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 NXTSYNC. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/navbar.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/transitions.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; connect-src 'self' http://localhost:5000; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+    <title>Join Academy - Enrollment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/enroll.css">
+</head>
+
+<body>
+    <div class="split-screen">
+        <!-- Visual Side -->
+        <div class="fluid-visual">
+            <video autoplay loop muted playsinline class="fluid-video">
+                <source src="assets/back3.mp4" type="video/mp4">
+            </video>
+            <div class="video-overlay"></div>
+
+            <div class="content-overlay">
+                <h1>Future-Ready <br>Certification</h1>
+                <p>Join an elite community of professionals. Access world-class curriculum, track your growth, and earn
+                    industry-recognized credentials that validate your expertise.</p>
+
+                <div class="features-list"
+                    style="margin-top: 2rem; display: flex; flex-direction: column; gap: 10px; list-style: none;">
+                    <div style="display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.9);">
+                        <span
+                            style="background: rgba(255,255,255,0.2); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">✓</span>
+                        <span>Global Standard Curriculum</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.9);">
+                        <span
+                            style="background: rgba(255,255,255,0.2); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">✓</span>
+                        <span>Verifiable Digital Badges</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.9);">
+                        <span
+                            style="background: rgba(255,255,255,0.2); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">✓</span>
+                        <span>24/7 Portal Access</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Side -->
+        <div class="form-section">
+            <a href="index.html" class="back-link">
+                <span>←</span> Back to Home
+            </a>
+
+            <div class="enrollment-card">
+                <!-- Enrollment Form -->
+                <div id="formContent">
+                    <img src="assets/logo.jpg" alt="NxtSync Logo" class="form-logo">
+                    <h2 class="mb-2">Student Enrollment</h2>
+                    <p class="mb-4">Begin your academic journey. Please provide accurate details for your official
+                        student record.</p>
+
+                    <form id="enrollForm" class="modern-form">
+                        <div class="form-group">
+                            <input type="text" id="name" class="modern-input" required autocomplete="off">
+                            <label for="name" class="input-label">Official Full Name</label>
+                        </div>
+
+                        <div class="form-group verify-group">
+                            <div class="input-wrapper">
+                                <input type="email" id="email" class="modern-input" required autocomplete="off">
+                                <label for="email" class="input-label">Email Address</label>
+                            </div>
+                            <button type="button" class="btn-verify" id="btnVerifyEmail">Verify</button>
+                            <span class="verified-badge hidden" id="emailVerified">✓ Verified</span>
+                        </div>
+                        <div id="emailOtpGroup" class="otp-group hidden">
+                            <input type="text" id="emailOtp" placeholder="Enter Email OTP" class="otp-input">
+                            <button type="button" class="btn-submit-otp" id="btnSubmitEmailOtp">→</button>
+                        </div>
+
+                        <div class="form-group verify-group">
+                            <div class="input-wrapper">
+                                <input type="tel" id="mobileNumber" class="modern-input" required autocomplete="off"
+                                    pattern="[0-9]{10}">
+                                <label for="mobileNumber" class="input-label">Mobile Number</label>
+                            </div>
+                            <button type="button" class="btn-verify" id="btnVerifyMobile">Verify</button>
+                            <span class="verified-badge hidden" id="mobileVerified">✓ Verified</span>
+                        </div>
+                        <div id="mobileOtpGroup" class="otp-group hidden">
+                            <input type="text" id="mobileOtp" placeholder="Enter Mobile OTP" class="otp-input">
+                            <button type="button" class="btn-submit-otp" id="btnSubmitMobileOtp">→</button>
+                        </div>
+
+                        <div class="form-group">
+                            <select id="courseId" class="modern-select" required>
+                                <option value="" disabled selected></option>
+                                <!-- Populated via JS -->
+                            </select>
+                            <label for="courseId" class="input-label">Select Program</label>
+                        </div>
+
+                        <button type="submit" class="btn-fluid">
+                            Complete Registration
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Success State -->
+                <!-- Success State -->
+                <div id="successMessage" class="success-container hidden">
+                    <div class="success-icon">✓</div>
+                    <h3>Registration Successful</h3>
+                    <p>Your academic profile has been active. Please securely save your credentials below.</p>
+
+                    <div class="credentials-box">
+                        <div class="cred-row">
+                            <span class="cred-label">Student ID</span>
+                            <span class="cred-value" id="newStudentId">...</span>
+                        </div>
+                        <div class="cred-row">
+                            <span class="cred-label">Password</span>
+                            <span class="cred-value" id="newPassword">...</span>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-muted mb-4">Make sure to save these credentials!</p>
+                    <a href="login.html" class="btn btn-primary w-100">Proceed to Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+    <script src="js/enroll.js"></script>
+</body>
+
+</html>

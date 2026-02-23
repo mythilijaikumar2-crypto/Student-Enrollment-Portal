@@ -1,0 +1,155 @@
+/* Admin Dashboard Enhancements */
+/* Animations */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleUp {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Page Transition Wrapper */
+#dashboardContent {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Card Staggered Entry */
+.dashboard-card {
+    animation: slideInRight 0.5s ease-out backwards;
+}
+
+.dashboard-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.dashboard-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dashboard-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.dashboard-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* Navigation Switches (Tabs) */
+.nav-link {
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--primary);
+    transform: scaleY(0);
+    transition: transform 0.3s;
+    border-radius: 0 4px 4px 0;
+}
+
+.nav-link.active {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--primary);
+}
+
+.nav-link.active::before {
+    transform: scaleY(1);
+}
+
+.nav-link:hover:not(.active) {
+    background: rgba(0, 0, 0, 0.02);
+    padding-left: 20px;
+    /* Slight movement on hover */
+}
+
+/* Smooth Table Operations */
+.data-table tbody tr {
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f8fafc;
+    transform: scale(1.01);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    z-index: 1;
+    position: relative;
+}
+
+/* Buttons */
+.btn {
+    transition: all 0.3s;
+}
+
+.btn:active {
+    transform: scale(0.95);
+}
+
+/* Modal Animation */
+.modal {
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s;
+}
+
+.modal-content {
+    animation: scaleUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Status Pills */
+.status-pill {
+    transition: transform 0.2s;
+}
+
+.status-pill:hover {
+    transform: scale(1.1);
+}
+
+/* Clickable Card Interaction */
+.clickable-card {
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.clickable-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-color: var(--primary);
+}
+
+.clickable-card:active {
+    transform: scale(0.98);
+}

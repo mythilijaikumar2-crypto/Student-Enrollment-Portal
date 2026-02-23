@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; connect-src 'self' http://localhost:5000; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;">
+    <title>Admin - Certificate Requests</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="../../index.html" class="logo"><img src="../../assets/logo.jpg" alt="Academy Logo"></a>
+                <div class="nav-links">
+                    <span id="user-name" class="mr-4" style="margin-right: 20px; font-weight: bold;"></span>
+                    <button onclick="logout()" class="btn btn-secondary">Logout</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="dashboard-grid">
+            <aside class="sidebar">
+                <ul>
+                    <li><a href="courses.html">Courses</a></li>
+                    <li><a href="students.html">Students</a></li>
+                    <li><a href="certificates.html" class="active">Requests</a></li>
+                </ul>
+            </aside>
+            <section class="content">
+                <h2>Certificate Requests</h2>
+                <div class="mt-4">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Requested At</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="request-list">
+                            <!-- Requests injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="../../js/app.js"></script>
+    <script src="../../js/admin.js"></script>
+    <script>
+        adminLogic.loadRequests();
+    </script>
+</body>
+
+</html>
