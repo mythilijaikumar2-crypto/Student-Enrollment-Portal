@@ -2,6 +2,7 @@ const Student = require('../models/Student');
 const Admin = require('../models/Admin');
 const Course = require('../models/Course');
 const Enrollment = require('../models/Enrollment');
+const Otp = require('../models/Otp'); // Import Otp model
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const sendEmail = require('../utils/sendEmail');
@@ -19,6 +20,17 @@ const enrollStudent = async (req, res) => {
     const { name, email, mobileNumber, courseId } = req.body;
 
     try {
+        // 1. Check if Email and Mobile are Verified
+        const emailOtp = await Otp.findOne({ identifier: email, type: 'email', verified: true });
+        if (!emailOtp) {
+            return res.status(400).json({ message: 'Email address not verified. Please verify your email.' });
+        }
+
+        const mobileOtp = await Otp.findOne({ identifier: mobileNumber, type: 'mobile', verified: true });
+        if (!mobileOtp) {
+            return res.status(400).json({ message: 'Mobile number not verified. Please verify your mobile number.' });
+        }
+
         const studentExists = await Student.findOne({ email });
 
         if (studentExists) {
@@ -184,8 +196,88 @@ const registerAdmin = async (req, res) => {
     }
 };
 
+// @desc    Send OTP for verification
+// @route   POST /api/auth/send-otp
+// @access  Public
+const sendOtp = async (req, res) => {
+    const { identifier, type } = req.body;
+
+    if (!identifier || !type) {
+        return res.status(400).json({ message: 'Identifier and type are required' });
+    }
+
+    try {
+        const code = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+        // Upsert OTP
+        await Otp.findOneAndUpdate(
+            { identifier, type },
+            { code, expiresAt, verified: false },
+            { upsert: true, new: true }
+        );
+
+        if (type === 'email') {
+            try {
+                await sendEmail({
+                    email: identifier,
+                    subject: 'Your Verification Code',
+                    html: `<h1>${code}</h1><p>This code is valid for 10 minutes.</p>`,
+                    message: `Your verification code is ${code}`
+                });
+            } catch (emailError) {
+                console.log('---------------------------------------------------');
+                console.log('EMAIL SERVICE ERROR (Soft Fail):', emailError.message);
+                console.log(`DEVELOPMENT MODE - EMAIL OTP for ${identifier}: ${code}`);
+                console.log('---------------------------------------------------');
+            }
+            // Log for dev convenience regardless of email success
+            console.log(`EMAIL OTP for ${identifier}: ${code}`);
+        } else if (type === 'mobile') {
+            // Mock SMS
+            console.log(`MOBILE OTP for ${identifier}: ${code}`);
+        }
+
+        res.json({ message: `${type.charAt(0).toUpperCase() + type.slice(1)} OTP sent successfully` });
+    } catch (error) {
+        res.status(500).json({ message: 'Failed to send OTP: ' + error.message });
+    }
+};
+
+// @desc    Verify OTP
+// @route   POST /api/auth/verify-otp
+// @access  Public
+const verifyOtp = async (req, res) => {
+    const { identifier, type, code } = req.body;
+
+    try {
+        const otpRecord = await Otp.findOne({ identifier, type });
+
+        if (!otpRecord) {
+            return res.status(400).json({ message: 'No OTP found for this identifier' });
+        }
+
+        if (otpRecord.code !== code) {
+            return res.status(400).json({ message: 'Invalid OTP code' });
+        }
+
+        if (otpRecord.expiresAt < Date.now()) {
+            return res.status(400).json({ message: 'OTP has expired' });
+        }
+
+        otpRecord.verified = true;
+        await otpRecord.save();
+
+        res.json({ message: 'Verification successful' });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports = {
     enrollStudent,
     login,
-    registerAdmin
+    registerAdmin,
+    sendOtp,
+    verifyOtp
 };

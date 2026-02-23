@@ -8,6 +8,12 @@ const adminLogic = {
     },
 
     renderSection: (section) => {
+        // Clear any existing polling when switching sections
+        if (window.currentPoll) {
+            clearTimeout(window.currentPoll);
+            window.currentPoll = null;
+        }
+
         // Update active link
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
@@ -59,11 +65,17 @@ const adminLogic = {
     // 1. Overview
     loadOverview: async () => {
         const container = document.getElementById('dashboardContent');
+        // Only show loading spinner on initial load, not on updates
+        if (!document.getElementById('overview-view')) {
+           // container.innerHTML = '<div class="text-center" style="padding: 100px;">Loading...</div>'; 
+           // Handled by renderSection, but we can verify
+        }
+
         try {
             const data = await apiFetch('/admin/overview');
 
-            container.innerHTML = `
-                <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+            const contentHTML = `
+                <div id="overview-view" class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                     <div class="dashboard-card stat-card">
                         <h3>Total Students</h3>
                         <div class="stat-value">${data.studentCount}</div>
@@ -91,6 +103,18 @@ const adminLogic = {
                     </div>
                 </div>
             `;
+            
+            // If fetching again (polling), we want to update the values smoothly if possible, but full replace is fine for now
+            container.innerHTML = contentHTML;
+
+            // Real-time Poll for Overview
+            window.currentPoll = setTimeout(() => {
+                // Check if we are still on the overview page
+                if (document.getElementById('overview-view')) {
+                   adminLogic.loadOverview();
+                }
+            }, 5000); // 5 second update cycle
+
         } catch (error) {
             container.innerHTML = `<div class="error-message show">Error loading overview: ${error.message}</div>`;
         }
@@ -275,8 +299,7 @@ const adminLogic = {
             container.innerHTML = html;
 
             // Simple Real-time Polling
-            if (window.adminPoll) clearTimeout(window.adminPoll);
-            window.adminPoll = setTimeout(() => {
+            window.currentPoll = setTimeout(() => {
                 // Only reload if the requests view is still active in the DOM
                 if (document.getElementById('requests-view')) {
                     adminLogic.loadRequests();

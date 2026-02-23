@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayDate = document.getElementById('displayDate');
     const qrcodeContainer = document.getElementById('qrcode');
 
+    // --- Config ---
+    // 🔧 Change this to your production domain before deploying
+    const VERIFY_BASE_URL = 'https://mydomain.com/api/certificate/verify';
+
     // --- State ---
     let qrCodeObj = null;
 
@@ -45,37 +49,62 @@ document.addEventListener('DOMContentLoaded', () => {
         displayDate.textContent = dateFormatted;
 
         // Update QR Code
-        generateQRCode(name, course, dateRaw);
+        // certificateId is fetched from DB in production.
+        // For the live preview, we use a deterministic placeholder ID
+        // so the QR always shows a valid URL format.
+        const previewCertId = 'CERT-PREVIEW-0001';
+        generateQRCode(previewCertId);
     }
 
-    function generateQRCode(name, course, date) {
-        // Clear previous QR
+    /**
+     * generateQRCode(certificateId)
+     *
+     * Generates a secure QR code that encodes a full HTTPS verification URL.
+     * Format: https://mydomain.com/api/certificate/verify/CERTIFICATE_ID
+     *
+     * - Clears any previous QR instance before rendering a new one
+     * - Size: 90x90 pixels
+     * - Error correction: High (H) — survives partial damage/logo overlay
+     * - Never embeds plain text, student names, or raw JSON
+     *
+     * @param {string} certificateId - The certificateId field from the database
+     */
+    function generateQRCode(certificateId) {
+        // 1. Guard: certificateId must be a non-empty string
+        if (!certificateId || typeof certificateId !== 'string' || !certificateId.trim()) {
+            console.error('generateQRCode: invalid certificateId', certificateId);
+            return;
+        }
+
+        // 2. Build the secure verification URL
+        const verificationURL = `${VERIFY_BASE_URL}/${certificateId.trim()}`;
+
+        // 3. Clear the previous QR (innerHTML wipe + destroy old instance)
+        if (qrCodeObj) {
+            qrCodeObj.clear();
+            qrCodeObj = null;
+        }
         qrcodeContainer.innerHTML = '';
 
-        // Verification Data (simulation)
-        const verificationData = JSON.stringify({
-            id: 'CERT-' + Math.floor(Math.random() * 10000),
-            student: name,
-            course: course,
-            issued: date,
-            issuer: 'NXT SYNC Network'
+        // 4. Guard: QRCode library must be loaded
+        if (typeof QRCode === 'undefined') {
+            console.error('QRCode library not loaded. Add qrcodejs via CDN.');
+            qrcodeContainer.textContent = 'QR Error';
+            return;
+        }
+
+        // 5. Render new QR code
+        qrCodeObj = new QRCode(qrcodeContainer, {
+            text: verificationURL,   // ← Only the URL, no plain text
+            width: 90,               // ← 90×90 as required
+            height: 90,
+            colorDark: '#0F172A',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H  // High error correction
         });
 
-        // Generate new QR
-        // using qrcodejs library
-        if (typeof QRCode !== 'undefined') {
-            new QRCode(qrcodeContainer, {
-                text: verificationData,
-                width: 80,
-                height: 80,
-                colorDark: "#0F172A",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        } else {
-            console.warn('QRCode library not loaded');
-            qrcodeContainer.textContent = 'QR Err';
-        }
+        // 6. Dev log — readable confirmation of what the QR encodes
+        console.log('[QR] Generated URL:', verificationURL);
     }
 
     async function generatePDF() {

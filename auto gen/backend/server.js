@@ -16,6 +16,7 @@ require('./models/Course');
 require('./models/CertificateRequest');
 require('./models/Certificate');
 require('./models/Enrollment');
+require('./models/Otp');
 
 const app = express();
 
