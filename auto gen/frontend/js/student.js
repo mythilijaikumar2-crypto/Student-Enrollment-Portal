@@ -86,20 +86,33 @@ const studentLogic = {
                     </div>
                 </div>
 
-                <div class="dashboard-card" style="animation-delay: 0.2s;">
-                    <h3>Account Statistics</h3>
-                    <div class="stats-row" style="display: flex; gap: 4rem; margin-top: 2rem;">
-                        <div class="stat">
-                            <div class="stat-value" style="color: #10b981; font-size: 2.5rem; font-weight: 700;">4</div>
-                            <p>Active Courses</p>
-                        </div>
-                         <div class="stat">
-                            <div class="stat-value" style="color: #ef4444; font-size: 2.5rem; font-weight: 700;">0</div>
-                            <p>Certificates</p>
-                        </div>
-                    </div>
-                </div>
+
             `;
+            try {
+                // Fetch certificates to display on profile
+                const certificates = await apiFetch('/student/certificate');
+
+                if (certificates.length > 0) {
+                    container.innerHTML += `
+                        <div class="dashboard-card" style="animation-delay: 0.2s; margin-top: 2rem;">
+                            <h3>My Certificates</h3>
+                            <div class="certificates-list" style="margin-top: 1rem;">
+                                ${certificates.map(cert => `
+                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-light); border-radius: 8px; margin-bottom: 0.8rem;">
+                                        <div>
+                                            <div style="font-weight: 600;">${cert.courseId.courseName}</div>
+                                            <div style="font-size: 0.8rem; color: var(--text-light);">Issued: ${new Date(cert.issueDate).toLocaleDateString()}</div>
+                                        </div>
+                                        <a href="${cert.certificateUrl}" target="_blank" class="btn btn-sm btn-primary">Download</a>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                console.log("Could not load certificates for profile view", err);
+            }
         } catch (error) {
             container.innerHTML = `<div class="error-message show">Failed to load profile: ${error.message}</div>`;
         }
